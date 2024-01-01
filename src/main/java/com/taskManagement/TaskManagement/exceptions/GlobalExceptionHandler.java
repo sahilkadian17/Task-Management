@@ -14,20 +14,20 @@ import java.util.Date;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(GenericException.class)
-    public final ResponseEntity<ErrorDetails> handleGenericException(GenericException e){
+    public final ResponseEntity<ErrorDetails> handleGenericException(GenericException e) {
         ErrorDetails errorDetails = new ErrorDetails();
         errorDetails.setMessage(e.getMessage());
         errorDetails.setTimeStamp(new Date());
         errorDetails.setStatusCode(HttpStatus.BAD_REQUEST.value());
-        return new ResponseEntity<>(errorDetails,HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public final ResponseEntity<ErrorDetails> handleMethodArgumentNotValidException(MethodArgumentNotValidException e, WebRequest request){
+    public final ResponseEntity<ErrorDetails> handleMethodArgumentNotValidException(MethodArgumentNotValidException e, WebRequest request) {
         ErrorDetails errorDetails = new ErrorDetails();
         errorDetails.setMessage(e.getBindingResult().getAllErrors().stream().map(DefaultMessageSourceResolvable::getDefaultMessage).toList().get(0));
         errorDetails.setTimeStamp(new Date());
         errorDetails.setStatusCode(HttpStatus.BAD_REQUEST.value());
-        return new ResponseEntity<>(errorDetails,HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
     }
 }

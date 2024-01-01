@@ -1,11 +1,27 @@
 package com.taskManagement.TaskManagement.dtos;
 
-public interface ResponseDto<T> {
+import lombok.AccessLevel;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
+import lombok.experimental.FieldDefaults;
 
-    void setMessage(String message);
-    void setStatus(Integer status);
-    void setData(T data);
-    String getMessage();
-    Integer getStatus();
-    T getData();
+@Data
+@ToString
+@FieldDefaults(level = AccessLevel.PRIVATE)
+@NoArgsConstructor
+public class ResponseDto<T> {
+
+    String message = "Request processed successfully.";
+    Integer status = 200;
+    T data;
+
+    public ResponseDto(T data) {
+        this.data = data;
+    }
+
+    public ResponseDto(String message, T data) {
+        this.message = message;
+        this.data = data;
+    }
 }

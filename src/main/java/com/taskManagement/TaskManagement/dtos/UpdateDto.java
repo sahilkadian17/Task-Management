@@ -1,8 +1,11 @@
 package com.taskManagement.TaskManagement.dtos;
 
 import com.taskManagement.TaskManagement.enums.Priority;
-import lombok.*;
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Getter
 @Setter

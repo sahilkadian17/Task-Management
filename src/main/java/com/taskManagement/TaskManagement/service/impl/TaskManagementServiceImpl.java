@@ -11,7 +11,6 @@ import com.taskManagement.TaskManagement.repository.CustomerRepository;
 import com.taskManagement.TaskManagement.repository.TaskManagementRepository;
 import com.taskManagement.TaskManagement.service.TaskManagementService;
 import lombok.AllArgsConstructor;
-import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,7 +23,6 @@ public class TaskManagementServiceImpl implements TaskManagementService {
 
     private final CustomerRepository customerRepository;
     private final TaskManagementRepository taskManagementRepository;
-    private final MessageSource messageSource;
 
     @Override
     public String save(TaskManagementRequestDto taskManagementRequestDTO, Long customerId) {
@@ -55,7 +53,7 @@ public class TaskManagementServiceImpl implements TaskManagementService {
         return "Task Deleted Successfully";
     }
 
-    private TaskManagement buildTaskManagement(TaskManagementRequestDto taskManagementRequestDto, Customer customer){
+    private TaskManagement buildTaskManagement(TaskManagementRequestDto taskManagementRequestDto, Customer customer) {
         return TaskManagement.builder()
                 .name(taskManagementRequestDto.getName())
                 .description(taskManagementRequestDto.getDescription())
@@ -66,13 +64,13 @@ public class TaskManagementServiceImpl implements TaskManagementService {
                 .build();
     }
 
-    private List<TaskManagementResponseDto> buildTaskManagementResponseList(List<TaskManagement> taskManagementList){
+    private List<TaskManagementResponseDto> buildTaskManagementResponseList(List<TaskManagement> taskManagementList) {
         return taskManagementList.stream()
                 .map(this::buildTaskManagementResponse)
                 .toList();
     }
 
-    private TaskManagementResponseDto buildTaskManagementResponse(TaskManagement taskManagement){
+    private TaskManagementResponseDto buildTaskManagementResponse(TaskManagement taskManagement) {
         return TaskManagementResponseDto.builder()
                 .id(taskManagement.getId())
                 .name(taskManagement.getName())
@@ -86,17 +84,17 @@ public class TaskManagementServiceImpl implements TaskManagementService {
     }
 
     private void updateTaskManagement(UpdateDto updateDto, Customer customer) {
-        TaskManagement taskManagement = taskManagementRepository.findByIdAndCustomerId(updateDto.getId(), customer.getId());
-        if(Objects.nonNull(updateDto.getName())){
+        TaskManagement taskManagement = taskManagementRepository.findByIdAndCustomerId(updateDto.getId(), customer.getId()).orElseThrow(() -> new GenericException("Task Not Found"));
+        if (Objects.nonNull(updateDto.getName())) {
             taskManagement.setName(updateDto.getName());
         }
-        if(Objects.nonNull(updateDto.getDescription())){
+        if (Objects.nonNull(updateDto.getDescription())) {
             taskManagement.setDescription(updateDto.getDescription());
         }
-        if(Objects.nonNull(updateDto.getStartDate())){
+        if (Objects.nonNull(updateDto.getStartDate())) {
             taskManagement.setStartDate(updateDto.getStartDate());
         }
-        if(Objects.nonNull(updateDto.getPriority())){
+        if (Objects.nonNull(updateDto.getPriority())) {
             taskManagement.setPriority(updateDto.getPriority());
         }
         taskManagementRepository.save(taskManagement);
